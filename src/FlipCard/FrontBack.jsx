@@ -13,8 +13,6 @@ const Card = styled.div`
   display: flex;
   flex-direction: column;
   transform: rotateX(0deg);
-  backface-visibility: hidden;
-  -moz-backface-visibility: hidden;
   background-color: ${(props) => props.theme.cardTheme.backgroundColor};
   color: ${(props) => props.theme.cardTheme.fontColor};
   span {

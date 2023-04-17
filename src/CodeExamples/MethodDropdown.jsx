@@ -121,7 +121,7 @@ const MethodDropdown = ({
       <NavWrapper theme={theme} onClick={handleChronikMenuClicked}>
         <NavHeader clicked={chronikMenuClicked} theme={theme}>
           {expandChronikMethodCard
-            ? expandChronikMethodCard.name + " " + "˅"
+            ? expandChronikMethodCard.name + "˅"
             : "Select a method ˅"}
         </NavHeader>
         <NavMenu open={chronikMenuClicked} theme={theme}>

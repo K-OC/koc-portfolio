@@ -111,7 +111,6 @@ export const BackCard = ({
   flip,
 }) => {
   const [selected, setSelected] = useState("");
-  let activeTab;
   const exampleArr = [
     "hamburger",
     "hiddenMessages",

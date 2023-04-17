@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { ThemedCopy } from "../assets/CustomIcons";
+import JSONPrettyMon from "react-json-pretty/themes/monikai.css";
+import JSONPretty from "react-json-pretty";
 
 const Wrapper = styled.div`
   display: flex;
@@ -110,7 +112,7 @@ const CodePopup = styled.div`
   left: 0;
   max-width: 100%;
   overflow-y: scroll;
-  background-color: black;
+  background-color:#272822;
   z-index: 10;
   color: white;
   pre {
@@ -204,11 +206,12 @@ const ChronikDemo = ({
         </InputCtn>
         {result.length > 0 && (
           <CodePopup checkResult={result}>
-            {result !== JSON.stringify("Please enter a valid input") ? (
-              <pre>{JSON.stringify(JSON.parse(result), null, 2)}</pre>
-            ) : (
-              <div>{result}</div>
-            )}
+            <JSONPretty
+              buggy={true}
+              id="json-pretty"
+              data={result}
+              theme={JSONPrettyMon}
+            ></JSONPretty>
           </CodePopup>
         )}
       </Wrapper>

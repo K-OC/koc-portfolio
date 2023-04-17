@@ -58,7 +58,7 @@ const InnerCtn = styled.div`
 
   h3 {
     white-space: nowrap;
-    overflow: auto;
+    overflow: hidden;
     font-size: 1.1rem;
     padding-top: 1.3rem;
   }

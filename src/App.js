@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import FlipCard from "./FlipCard/FlipCard";
 import { lightTheme } from "./assets/theme";
+import './App.css';
 
 const Wrapper = styled.div`
   background-color: ${(props) => props.theme.backgroundColor};

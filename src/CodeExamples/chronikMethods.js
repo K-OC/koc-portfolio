@@ -42,7 +42,7 @@ export const chronikMethods = [
     name: "Get Utxos",
     details: "utxos = await chronik.script('p2pkh', publickey).utxos()",
     example: "95E79F51D4260BC0DC3BA7FB77C7BE92D0FBDD1D",
-    description: "Get utxos associated with a pubkey",
+    description: "Get utxos associated with the Genesis Pubkey",
     inputLabel: " Genesis Pubkey",
     src: null,
     method: getUtxosHelper,

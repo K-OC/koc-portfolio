@@ -23,14 +23,13 @@ function App() {
   const [userInfo, setUserInfo] = useState({});
   const prevUserInfo = useRef(null);
 
-  useEffect(() => {
+
+  useEffect(()  => {
     try {
       let result = {};
-      if (window.navigator) {
+      if (window.navigator ) {
         result.userAgent = navigator.userAgentData;
-        result.connection = navigator.connection;
         result.deviceMemory = navigator.deviceMemory;
-        result.gpu = navigator.gpu;
         result.languages = navigator.languages;
         result.webdriver = navigator.webdriver;
 
@@ -56,6 +55,10 @@ function App() {
                 }
               );
             }
+            if(navigator.gpu){
+
+
+            }
           })
           .catch((err) => console.log(err));
       }
@@ -75,10 +78,8 @@ function App() {
       }
       prevUserInfo.current = userInfo;
       const message = `- **User Agent:** ${JSON.stringify(userInfo.userAgent)}\n
-  - **Connection:** ${JSON.stringify(navigator.connection.effectiveType)}\n
   - **Device Memory:** ${userInfo.deviceMemory}\n
   - **Location:** ${JSON.stringify(userInfo.location)}\n
-  - **GPU:** ${userInfo.gpu}\n
   - **Languages:** ${userInfo.languages}\n
   - **Webdriver:** ${userInfo.webdriver}\n
   - **IP Address:** ${userInfo.ip}`;
@@ -122,6 +123,7 @@ function App() {
         setChecked={setChecked}
         setTheme={setTheme}
         checked={checked}
+        clientInfo={userInfo}
       />
     </Wrapper>
   );

@@ -207,7 +207,6 @@ const ChronikDemo = ({
         {result.length > 0 && (
           <CodePopup checkResult={result}>
             <JSONPretty
-              buggy={true}
               id="json-pretty"
               data={result}
               theme={JSONPrettyMon}

@@ -38,11 +38,10 @@ const Root = styled.div`
   }
 `;
 
-const FlipCard = ({ flip, setFlip, checked, setChecked, theme, setTheme }) => {
+const FlipCard = ({ flip, setFlip, checked, setChecked, theme, setTheme, clientInfo }) => {
   const handleFlip = () => {
     setFlip(!flip);
   };
-
   return (
     <Root flip={flip}>
       <div className="flip-card">
@@ -56,6 +55,7 @@ const FlipCard = ({ flip, setFlip, checked, setChecked, theme, setTheme }) => {
               handleFlip={handleFlip}
               flip={flip}
               setFlip={setFlip}
+              clientInfo={clientInfo}
             />
           </div>
           <div className="flip-card-back">
@@ -66,6 +66,7 @@ const FlipCard = ({ flip, setFlip, checked, setChecked, theme, setTheme }) => {
               checked={checked}
               handleFlip={handleFlip}
               flip={flip}
+              clientInfo={clientInfo}
               setFlip={setFlip}
             />
           </div>

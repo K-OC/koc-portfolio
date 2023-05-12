@@ -107,6 +107,7 @@ export const BackCard = ({
   handleFlip,
   setFlip,
   flip,
+  clientInfo
 }) => {
   const [selected, setSelected] = useState("");
   const exampleArr = [
@@ -126,6 +127,7 @@ export const BackCard = ({
           handleFlip={handleFlip}
           flip={flip}
           setFlip={setFlip}
+          clientInfo={clientInfo}
         />{" "}
         <InnerCtn>
           <h3>Code Samples</h3>
@@ -167,6 +169,7 @@ export const FrontCard = ({
   handleFlip,
   setFlip,
   flip,
+  clientInfo
 }) => {
   return (
     <Card theme={theme}>
@@ -181,6 +184,7 @@ export const FrontCard = ({
             handleFlip={handleFlip}
             flip={flip}
             setFlip={setFlip}
+            clientInfo={clientInfo}
           />
           <span>
             <InnerCtn>

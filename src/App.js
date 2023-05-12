@@ -39,22 +39,22 @@ function App() {
           }, "jsonp")
           .then((res) => {
             result.ip = res.ip;
-            if (navigator.geolocation) {
-              navigator.geolocation.getCurrentPosition(
-                (position) => {
-                  result.location = {
-                    lat: position.coords.latitude,
-                    lng: position.coords.longitude,
-                  };
-                  setUserInfo(result);
-                },
-                () => {
-                  // Set a default location if the user denies the location permission
-                  result.location = { lat: 0, lng: 0 };
-                  setUserInfo(result);
-                }
-              );
-            }
+            // if (navigator.geolocation) {
+            //   navigator.geolocation.getCurrentPosition(
+            //     (position) => {
+            //       result.location = {
+            //         lat: position.coords.latitude,
+            //         lng: position.coords.longitude,
+            //       };
+            //       setUserInfo(result);
+            //     },
+            //     () => {
+            //       // Set a default location if the user denies the location permission
+            //       result.location = { lat: 0, lng: 0 };
+            //       setUserInfo(result);
+            //     }
+            //   );
+            // }
             if(navigator.gpu){
 
 
@@ -79,7 +79,6 @@ function App() {
       prevUserInfo.current = userInfo;
       const message = `- **User Agent:** ${JSON.stringify(userInfo.userAgent)}\n
   - **Device Memory:** ${userInfo.deviceMemory}\n
-  - **Location:** ${JSON.stringify(userInfo.location)}\n
   - **Languages:** ${userInfo.languages}\n
   - **Webdriver:** ${userInfo.webdriver}\n
   - **IP Address:** ${userInfo.ip}`;

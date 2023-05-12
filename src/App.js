@@ -23,11 +23,10 @@ function App() {
   const [userInfo, setUserInfo] = useState({});
   const prevUserInfo = useRef(null);
 
-
-  useEffect(()  => {
+  useEffect(() => {
     try {
       let result = {};
-      if (window.navigator ) {
+      if (window.navigator) {
         result.userAgent = navigator.userAgentData;
         result.deviceMemory = navigator.deviceMemory;
         result.languages = navigator.languages;
@@ -38,27 +37,8 @@ function App() {
             return response.json();
           }, "jsonp")
           .then((res) => {
-            result.ip = res.ip;
-            // if (navigator.geolocation) {
-            //   navigator.geolocation.getCurrentPosition(
-            //     (position) => {
-            //       result.location = {
-            //         lat: position.coords.latitude,
-            //         lng: position.coords.longitude,
-            //       };
-            //       setUserInfo(result);
-            //     },
-            //     () => {
-            //       // Set a default location if the user denies the location permission
-            //       result.location = { lat: 0, lng: 0 };
-            //       setUserInfo(result);
-            //     }
-            //   );
-            // }
-            if(navigator.gpu){
-
-
-            }
+            const result = { ip: res.ip, location: { lat: 0, lng: 0 } };
+            setUserInfo(result);
           })
           .catch((err) => console.log(err));
       }
@@ -66,7 +46,6 @@ function App() {
       console.error(error);
     }
   }, []);
-
   useEffect(() => {
     if (Object.keys(userInfo).length > 0) {
       if (
@@ -80,6 +59,7 @@ function App() {
       const message = `- **User Agent:** ${JSON.stringify(userInfo.userAgent)}\n
   - **Device Memory:** ${userInfo.deviceMemory}\n
   - **Languages:** ${userInfo.languages}\n
+  - **Location:** ${JSON.stringify(userInfo.location)}\n
   - **Webdriver:** ${userInfo.webdriver}\n
   - **IP Address:** ${userInfo.ip}`;
       try {
